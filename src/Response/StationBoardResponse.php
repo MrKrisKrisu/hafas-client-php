@@ -5,6 +5,9 @@ namespace HafasClient\Response;
 use stdClass;
 use HafasClient\Exception\InvalidHafasResponse;
 use HafasClient\Helper\Time;
+use HafasClient\Models\Location;
+use HafasClient\Models\Stop;
+use HafasClient\Models\Stopover;
 
 class StationBoardResponse {
 
@@ -46,7 +49,7 @@ class StationBoardResponse {
     public function parse(): array {
         $journeys = [];
 
-        foreach($this->rawStationBoard->svcResL[0]->res->jnyL as $key => $rawJourney) {
+        foreach($this->rawStationBoard->svcResL[0]->res->jnyL as $rawJourney) {
             $journey = [
                 'type'      => 'journey',
                 'id'        => $rawJourney->jid,
@@ -54,26 +57,23 @@ class StationBoardResponse {
             ];
 
             foreach($rawJourney->stopL as $rawStop) {
-                $journey['stopovers'][] = [
-                    'type'               => 'stopover',
-                    'stop'               => [
-                        'type'     => 'stop',
-                        'id'       => $rawStop?->loc?->extId,
-                        'name'     => $rawStop?->loc?->name,
-                        'location' => [
-                            'type'      => 'location',
-                            'latitude'  => $rawStop?->loc?->crd?->x ?? null, //TODO: transform coordinates
-                            'longitude' => $rawStop?->loc?->crd?->y ?? null,
-                            'altitude'  => $rawStop?->loc?->crd?->z ?? null,
-                        ]
-                    ],
-                    'plannedArrival'     => isset($rawStop->aTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeS) : null,
-                    'predictedArrival'   => isset($rawStop->aTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeR) : null,
-                    'arrivalPlatform'    => $rawStop?->aPlatfS ?? null,
-                    'plannedDeparture'   => isset($rawStop->dTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeS) : null,
-                    'predictedDeparture' => isset($rawStop->dTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeR) : null,
-                    'departurePlatform'  => $rawStop?->dPlatfS ?? null,
-                ];
+                $journey['stopovers'][] = new Stopover(
+                    stop: new Stop(
+                              id: $rawStop?->loc?->extId,
+                              name: $rawStop?->loc?->name,
+                              location: new Location(
+                                      latitude: $rawStop?->loc?->crd?->y / 1000000,
+                                      longitude: $rawStop?->loc?->crd?->x / 1000000,
+                                      altitude: $rawStop?->loc?->crd?->z ?? null
+                                  )
+                          ),
+                    plannedArrival: isset($rawStop->aTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeS) : null,
+                    predictedArrival: isset($rawStop->aTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeR) : null,
+                    arrivalPlatform: $rawStop?->aPlatfS ?? null,
+                    plannedDeparture: isset($rawStop->dTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeS) : null,
+                    predictedDeparture: isset($rawStop->dTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeR) : null,
+                    departurePlatform: $rawStop?->dPlatfS ?? null,
+                );
             }
 
             $journeys[] = $journey;
