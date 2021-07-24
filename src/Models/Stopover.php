@@ -35,4 +35,17 @@ class Stopover {
         $this->predictedDeparture = $predictedDeparture;
         $this->departurePlatform  = $departurePlatform;
     }
+
+    public function __toString(): string {
+        return json_encode([
+                               'type'               => 'stopover',
+                               'stop'               => isset($this->stop) ? (string)$this->stop : null,
+                               'plannedArrival'     => $this->plannedArrival,
+                               'predictedArrival'   => $this->predictedArrival,
+                               'arrivalPlatform'    => $this->arrivalPlatform,
+                               'plannedDeparture'   => $this->plannedDeparture,
+                               'predictedDeparture' => $this->predictedDeparture,
+                               'departurePlatform'  => $this->departurePlatform,
+                           ]);
+    }
 }

@@ -8,6 +8,8 @@ use HafasClient\Helper\Time;
 use HafasClient\Models\Location;
 use HafasClient\Models\Stop;
 use HafasClient\Models\Stopover;
+use HafasClient\Models\Line;
+use HafasClient\Models\Operator;
 
 class StationBoardResponse {
 
@@ -53,6 +55,19 @@ class StationBoardResponse {
             $journey = [
                 'type'      => 'journey',
                 'id'        => $rawJourney->jid,
+                'direction' => $rawJourney?->dirTxt ?? null,
+                'line'      => new Line(
+                    id: '?', //TODO
+                    name: $rawJourney?->prod?->prodCtx?->name ?? null,
+                    category: $rawJourney?->prod?->prodCtx?->catOut ?? null,
+                    number: $rawJourney?->prod?->prodCtx?->line ?? null,
+                    mode: null,    //TODO
+                    product: null, //TODO
+                    operator: new Operator(
+                            id: $rawJourney?->prod?->opr?->name ?? null, //TODO
+                            name: $rawJourney?->prod?->opr?->name ?? null,
+                        ),
+                ),
                 'stopovers' => [],
             ];
 
@@ -81,9 +96,4 @@ class StationBoardResponse {
 
         return $journeys;
     }
-
-    public function __toString(): string {
-        return json_encode($this->parse());
-    }
-
 }

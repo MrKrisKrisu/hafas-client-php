@@ -17,4 +17,13 @@ class Stop {
         $this->name     = $name;
         $this->location = $location;
     }
+
+    public function __toString(): string {
+        return json_encode([
+                               'type'     => 'stop',
+                               'id'       => $this->id,
+                               'name'     => $this->name,
+                               'location' => isset($this->location) ? (string)$this->location : null
+                           ]);
+    }
 }

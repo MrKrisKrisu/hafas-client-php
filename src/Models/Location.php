@@ -18,4 +18,13 @@ class Location {
         $this->longitude = $longitude;
         $this->altitude  = $altitude;
     }
+
+    public function __toString(): string {
+        return json_encode([
+                               'type'      => 'location',
+                               'latitude'  => $this->latitude,
+                               'longitude' => $this->longitude,
+                               'altitude'  => $this->altitude,
+                           ]);
+    }
 }
