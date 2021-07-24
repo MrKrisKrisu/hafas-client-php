@@ -20,9 +20,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Environment Dependencies
-        run: sudo apt-get install poppler-utils
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
