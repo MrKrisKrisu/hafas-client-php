@@ -1,5 +1,6 @@
 {
   "name": "mrkriskrisu/hafas-client-php",
+  "license": "MIT",
   "type": "library",
   "require": {
     "php": "^8.0",
