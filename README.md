@@ -1,5 +1,7 @@
 # Hafas Client for PHP
 
+[![PHPUnit](https://github.com/MrKrisKrisu/hafas-client-php/actions/workflows/phpunit.yml/badge.svg)](https://github.com/MrKrisKrisu/hafas-client-php/actions/workflows/phpunit.yml)
+
 ## Installation**
 
 ```
