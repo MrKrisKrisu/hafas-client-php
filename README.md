@@ -7,12 +7,19 @@
 
 ## Installation**
 
-```
+```bash
 composer require mrkriskrisu/hafas-client-php
 ```
 
 > :warning: This library is just being developed and structured. With each version the structure will change. So use this
-library with care and specify an exact version in your composer.json (don't use <b>^</b>0.x!) until it reaches version 1.
+> library with care and specify an exact version in your composer.json (don't use <b>^</b>0.x!) until it reaches version 1.
+
+## Features
+
+- Fetch [next departures](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchDepartures.php) of a
+  station
+- Fetch [next arrivals](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchArrivald.php) of a
+  station
 
 ## Related
 
