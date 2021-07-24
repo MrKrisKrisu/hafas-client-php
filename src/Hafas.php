@@ -5,13 +5,15 @@ namespace HafasClient;
 use stdClass;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use HafasClient\Response\StationBoardResponse;
 
 abstract class Hafas {
 
     /**
      * @throws GuzzleException
+     * @throws Exception\InvalidHafasResponse
      */
-    public static function getDepartures(int $lid, Carbon $timestamp, int $maxJourneys = 5): stdClass {
+    public static function getDepartures(int $lid, Carbon $timestamp, int $maxJourneys = 5): StationBoardResponse {
         $data = [
             'req'  => [
                 'type'     => 'DEP',
@@ -37,7 +39,7 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        return Request::request($data);
+        return new StationBoardResponse(Request::request($data));
     }
 
     /**
@@ -69,7 +71,7 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        return Request::request($data);
+        return new StationBoardResponse(Request::request($data));
     }
 
 }

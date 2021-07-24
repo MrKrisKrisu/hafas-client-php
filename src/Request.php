@@ -60,45 +60,4 @@ abstract class Request {
             'ver'     => '1.16'
         ];
     }
-
-
-    public static function d() {
-        $reqString = '{
-
-"auth": {
-		"type": "AID",
-		"aid": "n91dB8Z77MLdoR0K"
-	},
-
-"client": {
-		"id": "DB",
-		"v": "16040000",
-		"type": "IPH",
-		"name": "DB Navigator"
-	},
-
-"ext": "DB.R19.04.a",
-
-"svcReqL":{
-"req": {
-  "cfg": { 
-    "polyEnc": "GPA" 
-  },
-  "meth": "LocMatch",
-  "req": { 
-    "input": { 
-      "loc": { 
-        "type": "ALL", 
-        "name": "Hannover?"
-      },
-      "maxLoc": 5, 
-      "field": "S" 
-    }
-  }
-}
-}
-
-,"ver":"1.15"}';
-    }
-
 }
