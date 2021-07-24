@@ -1,5 +1,6 @@
 {
   "name": "mrkriskrisu/hafas-client-php",
+  "description": "PHP library for HAFAS public transport APIs (currently only Deutsche Bahn).",
   "license": "MIT",
   "type": "library",
   "require": {
