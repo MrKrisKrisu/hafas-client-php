@@ -18,7 +18,7 @@ composer require mrkriskrisu/hafas-client-php
 
 - Fetch [next departures](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchDepartures.php) of a
   station
-- Fetch [next arrivals](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchArrivald.php) of a
+- Fetch [next arrivals](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchArrivals.php) of a
   station
 
 ## Related
