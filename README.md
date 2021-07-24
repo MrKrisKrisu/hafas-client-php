@@ -11,7 +11,8 @@
 composer require mrkriskrisu/hafas-client-php
 ```
 
-** Only possible after a release has been created. Software is currently in development.
+> :warning: This library is just being developed and structured. With each version the structure will change. So use this
+library with care and specify an exact version in your composer.json (don't use <b>^</b>0.x!) until it reaches version 1.
 
 ## Related
 
