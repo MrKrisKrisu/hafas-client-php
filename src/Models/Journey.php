@@ -15,18 +15,21 @@ class Journey {
     public ?Carbon $date;
     public ?Line   $line;
     public ?array  $stopovers;
+    public ?array  $remarks;
 
     public function __construct(
         string $journeyId,
         string $direction = null,
         Carbon $date = null,
         Line $line = null,
-        array $stopovers = null
+        array $stopovers = null,
+        array $remarks = null
     ) {
         $this->journeyId = $journeyId;
         $this->direction = $direction;
         $this->line      = $line;
         $this->stopovers = $stopovers;
+        $this->remarks   = $remarks;
     }
 
     public function __toString(): string {
@@ -37,6 +40,7 @@ class Journey {
                                'date'      => $this->date?->format('Y-m-d'),
                                'line'      => isset($this->line) ? (string)$this->line : null,
                                'stopovers' => $this->stopovers,
+                               'remarks'   => $this->remarks,
                            ]);
     }
 }

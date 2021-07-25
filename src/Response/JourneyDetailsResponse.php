@@ -11,6 +11,7 @@ use HafasClient\Models\Stopover;
 use HafasClient\Models\Stop;
 use HafasClient\Models\Location;
 use HafasClient\Helper\Time;
+use HafasClient\Models\Remark;
 
 class JourneyDetailsResponse {
 
@@ -56,6 +57,18 @@ class JourneyDetailsResponse {
             );
         }
 
+        $remarks = [];
+        foreach($rawJourney->msgL as $message) {
+            $rawMessage = $rawCommon->remL[$message->remX];
+
+            $remarks[] = new Remark(
+                type: $rawMessage?->type,
+                code: $rawMessage?->code,
+                prio: $rawMessage?->prio,
+                message: $rawMessage?->txtN,
+            );
+        }
+
         return new Journey(
             journeyId: $rawJourney?->jid,
             direction: $rawJourney?->dirTxt,
@@ -73,6 +86,7 @@ class JourneyDetailsResponse {
                                )
                        ),
             stopovers: $stopovers,
+            remarks: $remarks,
         );
     }
 }
