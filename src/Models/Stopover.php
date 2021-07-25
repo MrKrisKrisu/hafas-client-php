@@ -11,6 +11,7 @@ use Carbon\Carbon;
 class Stopover {
 
     public Stop    $stop;
+    public ?int    $index;
     public ?Carbon $plannedArrival;
     public ?Carbon $predictedArrival;
     public ?string $arrivalPlatform;
@@ -21,6 +22,7 @@ class Stopover {
 
     public function __construct(
         Stop $stop,
+        int $index = null,
         Carbon $plannedArrival = null,
         Carbon $predictedArrival = null,
         string $arrivalPlatform = null,
@@ -30,6 +32,7 @@ class Stopover {
         bool $isCancelled = null
     ) {
         $this->stop               = $stop;
+        $this->index              = $index;
         $this->plannedArrival     = $plannedArrival;
         $this->predictedArrival   = $predictedArrival;
         $this->arrivalPlatform    = $arrivalPlatform;
@@ -43,6 +46,7 @@ class Stopover {
         return json_encode([
                                'type'               => 'stopover',
                                'stop'               => isset($this->stop) ? (string)$this->stop : null,
+                               'index'              => $this->index,
                                'plannedArrival'     => $this->plannedArrival,
                                'predictedArrival'   => $this->predictedArrival,
                                'arrivalPlatform'    => $this->arrivalPlatform,

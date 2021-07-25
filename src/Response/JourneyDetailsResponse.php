@@ -45,6 +45,7 @@ class JourneyDetailsResponse {
                                   altitude: $rawLoc?->crd?->z ?? null
                               )
                       ),
+                index: $rawStop?->idx,
                 plannedArrival: isset($rawStop->aTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeS) : null,
                 predictedArrival: isset($rawStop->aTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeR) : null,
                 arrivalPlatform: $rawStop?->aPlatfS ?? null,
