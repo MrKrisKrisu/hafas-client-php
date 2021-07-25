@@ -2,5 +2,11 @@
 
 require_once '../vendor/autoload.php';
 
-$data = \HafasClient\Hafas::getLocation("Hannover Hbf");
-print_r($data->parse());
+$query = "Hannover Hbf";
+$data  = \HafasClient\Hafas::getLocation($query);
+
+echo '** You\'ve searched for "' . $query . '" **' . PHP_EOL . PHP_EOL;
+
+foreach($data->parse() as $stop) {
+    echo "** Found " . $stop->name . PHP_EOL;
+}
