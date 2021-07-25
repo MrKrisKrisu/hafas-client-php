@@ -18,11 +18,15 @@ composer require mrkriskrisu/hafas-client-php
 
 - Fetch [next departures](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchDepartures.php) of a
   station
+
 - Fetch [next arrivals](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchArrivals.php) of a
   station
+  
+- Fetch [locations](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchLocation.php)
 
 ## Related
 
 - [`hafas-client`](https://github.com/public-transport/hafas-client) – JavaScript client for HAFAS public transport
   APIs.
+
 - [`db-hafas`](https://github.com/public-transport/db-hafas) – JavaScript client for the Deutsche Bahn HAFAS API.
