@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use HafasClient\Response\StationBoardResponse;
 use HafasClient\Response\LocMatchResponse;
+use HafasClient\Response\JourneyDetailsResponse;
 
 abstract class Hafas {
 
@@ -118,6 +119,21 @@ abstract class Hafas {
         ];
 
         return new LocMatchResponse(Request::request($data));
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws Exception\InvalidHafasResponse
+     */
+    public static function getJourney(string $journeyId): JourneyDetailsResponse {
+        $data = [
+            'req'  => [
+                'jid' => $journeyId
+            ],
+            'meth' => 'JourneyDetails'
+        ];
+
+        return new JourneyDetailsResponse(Request::request($data));
     }
 
 }
