@@ -51,6 +51,7 @@ class JourneyDetailsResponse {
                 plannedDeparture: isset($rawStop->dTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeS) : null,
                 predictedDeparture: isset($rawStop->dTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeR) : null,
                 departurePlatform: $rawStop?->dPlatfS ?? null,
+                isCancelled: $rawStop?->aCncl || $rawStop?->dCnl,
             );
         }
 

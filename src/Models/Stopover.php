@@ -17,15 +17,17 @@ class Stopover {
     public ?Carbon $plannedDeparture;
     public ?Carbon $predictedDeparture;
     public ?string $departurePlatform;
+    public ?bool   $isCancelled;
 
     public function __construct(
         Stop $stop,
-        ?Carbon $plannedArrival,
-        ?Carbon $predictedArrival,
-        ?string $arrivalPlatform,
-        ?Carbon $plannedDeparture,
-        ?Carbon $predictedDeparture,
-        ?string $departurePlatform
+        Carbon $plannedArrival = null,
+        Carbon $predictedArrival = null,
+        string $arrivalPlatform = null,
+        Carbon $plannedDeparture = null,
+        Carbon $predictedDeparture = null,
+        string $departurePlatform = null,
+        bool $isCancelled = null
     ) {
         $this->stop               = $stop;
         $this->plannedArrival     = $plannedArrival;
@@ -34,6 +36,7 @@ class Stopover {
         $this->plannedDeparture   = $plannedDeparture;
         $this->predictedDeparture = $predictedDeparture;
         $this->departurePlatform  = $departurePlatform;
+        $this->isCancelled        = $isCancelled;
     }
 
     public function __toString(): string {
@@ -46,6 +49,7 @@ class Stopover {
                                'plannedDeparture'   => $this->plannedDeparture,
                                'predictedDeparture' => $this->predictedDeparture,
                                'departurePlatform'  => $this->departurePlatform,
+                               'isCancelled'        => $this->isCancelled
                            ]);
     }
 }
