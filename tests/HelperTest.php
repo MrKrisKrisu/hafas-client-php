@@ -26,4 +26,11 @@ final class HelperTest extends TestCase {
         $this->assertEquals(4, $timestamp->second);
         //$this->assertEquals(null, $timestamp->timezone); //TODO: support timezones
     }
+
+    public function testDateParsing(): void {
+        $timestamp = Time::parseDate('20210203');
+        $this->assertEquals(2021, $timestamp->year);
+        $this->assertEquals(2, $timestamp->month);
+        $this->assertEquals(3, $timestamp->day);
+    }
 }

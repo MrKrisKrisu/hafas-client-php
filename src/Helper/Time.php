@@ -26,4 +26,12 @@ abstract class Time {
         return $timestamp;
     }
 
+    public static function parseDate(string $rawDate): Carbon {
+        $year  = substr($rawDate, 0, 4);
+        $month = substr($rawDate, 4, 2);
+        $day   = substr($rawDate, 6, 2);
+
+        return Carbon::create($year, $month, $day);
+    }
+
 }

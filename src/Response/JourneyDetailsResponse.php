@@ -57,6 +57,7 @@ class JourneyDetailsResponse {
         return new Journey(
             journeyId: $rawJourney?->jid,
             direction: $rawJourney?->dirTxt,
+            date: Time::parseDate($rawJourney->date),
             line: new Line(
                            id: '???', //TODO
                            name: $rawLine?->name,
