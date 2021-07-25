@@ -11,12 +11,13 @@ abstract class Request {
     const SALT = 'bdI8UVj40K5fvxwf';
 
     /**
-     * @param array $data
+     * @param array  $data
+     * @param string $userAgent
      *
      * @return stdClass
      * @throws GuzzleException
      */
-    public static function request(array $data): stdClass {
+    public static function request(array $data, string $userAgent = 'hafas-client-php'): stdClass {
         $client = new Client();
 
         $dummy              = self::getDummyRequestBody();
@@ -28,7 +29,7 @@ abstract class Request {
             'body'    => $requestBody,
             'headers' => [
                 'Content-Type' => 'application/json',
-                'User-Agent'   => 'DB Navigator/19.10.04 (iPhone; iOS 13.1.2; Scale/2.00)'
+                'User-Agent'   => $userAgent,
             ]
 
         ]);
