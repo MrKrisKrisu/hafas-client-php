@@ -21,8 +21,10 @@ composer require mrkriskrisu/hafas-client-php
 
 - Fetch [next arrivals](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchArrivals.php) of a
   station
-  
+
 - Fetch [locations](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchLocation.php)
+
+- Fetch [journeys](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchJourney.php)
 
 ## Related
 
