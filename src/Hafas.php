@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use HafasClient\Response\StationBoardResponse;
 use HafasClient\Response\LocMatchResponse;
 use HafasClient\Response\JourneyDetailsResponse;
+use HafasClient\Models\Journey;
 
 abstract class Hafas {
 
@@ -23,7 +24,7 @@ abstract class Hafas {
         Carbon $timestamp,
         int $maxJourneys = 5,
         int $duration = -1
-    ): StationBoardResponse {
+    ): ?array {
         $data = [
             'req'  => [
                 'type'     => 'DEP',
@@ -49,7 +50,8 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        return new StationBoardResponse(Request::request($data));
+        $response = new StationBoardResponse(Request::request($data));
+        return $response->parse();
     }
 
     /**
@@ -65,7 +67,7 @@ abstract class Hafas {
         Carbon $timestamp,
         int $maxJourneys = 5,
         int $duration = -1
-    ): StationBoardResponse {
+    ): ?array {
         $data = [
             'req'  => [
                 'type'     => 'ARR',
@@ -91,7 +93,8 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        return new StationBoardResponse(Request::request($data));
+        $response = new StationBoardResponse(Request::request($data));
+        return $response->parse();
     }
 
     /**
@@ -104,7 +107,7 @@ abstract class Hafas {
     public static function getLocation(
         string $query,
         string $type = 'S'
-    ): LocMatchResponse {
+    ): ?array {
         $data = [
             'req'  => [
                 'input' => [
@@ -118,22 +121,23 @@ abstract class Hafas {
             'meth' => 'LocMatch'
         ];
 
-        return new LocMatchResponse(Request::request($data));
+        $response = new LocMatchResponse(Request::request($data));
+        return $response->parse();
     }
 
     /**
      * @throws GuzzleException
      * @throws Exception\InvalidHafasResponse
      */
-    public static function getJourney(string $journeyId): JourneyDetailsResponse {
-        $data = [
+    public static function getJourney(string $journeyId): ?Journey {
+        $data     = [
             'req'  => [
                 'jid' => $journeyId
             ],
             'meth' => 'JourneyDetails'
         ];
-
-        return new JourneyDetailsResponse(Request::request($data));
+        $response = new JourneyDetailsResponse(Request::request($data));
+        return $response->parse();
     }
 
 }

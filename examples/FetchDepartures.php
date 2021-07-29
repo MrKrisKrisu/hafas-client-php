@@ -2,8 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-$response = \HafasClient\Hafas::getDepartures(8000152, \Carbon\Carbon::now(), 2);
-$data     = $response->parse();
+$data = \HafasClient\Hafas::getDepartures(8000152, \Carbon\Carbon::now(), 2);
 
 if(!isset($data[0])) {
     echo "There is no departure for the given stop in the given time." . PHP_EOL;
