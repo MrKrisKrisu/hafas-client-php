@@ -15,7 +15,7 @@ abstract class Hafas {
 
     /**
      * @throws GuzzleException|Exception\InvalidHafasResponse
-     * @throws Exception\ProductNotFoundException
+     * @throws Exception\ProductNotFoundException|Exception\InvalidFilterException
      * @todo parse stopovers
      * @todo set language in request
      * @todo support remarks, hints, warnings
@@ -57,8 +57,17 @@ abstract class Hafas {
     }
 
     /**
-     * @throws GuzzleException|Exception\InvalidHafasResponse
-     * @todo filter by type (bus, tram, subway, regional, ...)
+     * @param int                $lid
+     * @param Carbon             $timestamp
+     * @param int                $maxJourneys
+     * @param int                $duration
+     * @param ProductFilter|null $filter
+     *
+     * @return array|null
+     * @throws Exception\InvalidFilterException
+     * @throws Exception\InvalidHafasResponse
+     * @throws Exception\ProductNotFoundException
+     * @throws GuzzleException
      * @todo parse stopovers
      * @todo set language in request
      * @todo support remarks, hints, warnings
@@ -68,8 +77,14 @@ abstract class Hafas {
         int $lid,
         Carbon $timestamp,
         int $maxJourneys = 5,
-        int $duration = -1
+        int $duration = -1,
+        ProductFilter $filter = null,
     ): ?array {
+        if($filter == null) {
+            //true is default for all
+            $filter = new ProductFilter();
+        }
+
         $data = [
             'req'  => [
                 'type'     => 'ARR',
@@ -84,13 +99,7 @@ abstract class Hafas {
                 'date'     => $timestamp->format('Ymd'),
                 'time'     => $timestamp->format('His'),
                 'dur'      => $duration,
-                'jnyFltrL' => [
-                    [
-                        'type'  => 'PROD',
-                        'mode'  => 'INC',
-                        'value' => '1023'
-                    ]
-                ]
+                'jnyFltrL' => [$filter->filter()]
             ],
             'meth' => 'StationBoard'
         ];
@@ -103,8 +112,9 @@ abstract class Hafas {
      * @param string $query
      * @param string $type 'S' = stations, 'ALL' stations and addresses
      *
-     * @return LocMatchResponse
-     * @throws GuzzleException|Exception\InvalidHafasResponse
+     * @return array|null
+     * @throws Exception\InvalidHafasResponse
+     * @throws GuzzleException
      */
     public static function getLocation(
         string $query,
