@@ -8,6 +8,7 @@ use HafasClient\Response\StationBoardResponse;
 use HafasClient\Response\LocMatchResponse;
 use HafasClient\Response\JourneyDetailsResponse;
 use HafasClient\Models\Journey;
+use HafasClient\Response\LocGeoPosResponse;
 
 abstract class Hafas {
 
@@ -137,6 +138,43 @@ abstract class Hafas {
             'meth' => 'JourneyDetails'
         ];
         $response = new JourneyDetailsResponse(Request::request($data));
+        return $response->parse();
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws Exception\InvalidHafasResponse
+     */
+    public static function getNearby(float $latitude, float $longitude, $limit = 8): array {
+        $data = [
+            'req'  => [
+                "ring"     => [
+                    "cCrd"    => [
+                        "x" => $longitude * 1000000,
+                        "y" => $latitude * 1000000
+                    ],
+                    "maxDist" => -1,
+                    "minDist" => 0
+                ],
+                "locFltrL" => [
+                    [
+                        "type"  => "PROD",
+                        "mode"  => "INC",
+                        "value" => "1023"
+                    ]
+                ],
+                "getPOIs"  => false,
+                "getStops" => true,
+                "maxLoc"   => $limit
+            ],
+            'cfg'  => [
+                'polyEnc' => 'GPA',
+                'rtMode'  => 'HYBRID',
+            ],
+            'meth' => 'LocGeoPos'
+        ];
+
+        $response = new LocGeoPosResponse(Request::request($data));
         return $response->parse();
     }
 

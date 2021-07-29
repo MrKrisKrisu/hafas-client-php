@@ -26,6 +26,8 @@ composer require mrkriskrisu/hafas-client-php
 
 - Fetch [journeys](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchJourney.php)
 
+- Fetch [nearby stops](https://github.com/MrKrisKrisu/hafas-client-php/blob/main/examples/FetchNearby.php)
+
 ## Related
 
 - [`hafas-client`](https://github.com/public-transport/hafas-client) – JavaScript client for HAFAS public transport
