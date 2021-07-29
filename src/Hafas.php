@@ -9,12 +9,13 @@ use HafasClient\Response\LocMatchResponse;
 use HafasClient\Response\JourneyDetailsResponse;
 use HafasClient\Models\Journey;
 use HafasClient\Response\LocGeoPosResponse;
+use HafasClient\Helper\ProductFilter;
 
 abstract class Hafas {
 
     /**
      * @throws GuzzleException|Exception\InvalidHafasResponse
-     * @todo filter by type (bus, tram, subway, regional, ...)
+     * @throws Exception\ProductNotFoundException
      * @todo parse stopovers
      * @todo set language in request
      * @todo support remarks, hints, warnings
@@ -24,8 +25,14 @@ abstract class Hafas {
         int $lid,
         Carbon $timestamp,
         int $maxJourneys = 5,
-        int $duration = -1
+        int $duration = -1,
+        ProductFilter $filter = null,
     ): ?array {
+        if($filter == null) {
+            //true is default for all
+            $filter = new ProductFilter();
+        }
+
         $data = [
             'req'  => [
                 'type'     => 'DEP',
@@ -40,13 +47,7 @@ abstract class Hafas {
                 'date'     => $timestamp->format('Ymd'),
                 'time'     => $timestamp->format('His'),
                 'dur'      => $duration,
-                'jnyFltrL' => [
-                    [
-                        'type'  => 'PROD',
-                        'mode'  => 'INC',
-                        'value' => '1023'
-                    ]
-                ]
+                'jnyFltrL' => [$filter->filter()]
             ],
             'meth' => 'StationBoard'
         ];
