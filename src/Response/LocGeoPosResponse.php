@@ -25,7 +25,7 @@ class LocGeoPosResponse {
         $data = [];
 
         foreach($this->rawResponse->svcResL[0]->res->locL as $location) {
-            $data[] = new Stop(
+            $stop           = new Stop(
                 id: $location->extId,
                 name: $location->name,
                 location: new Location(
@@ -34,6 +34,8 @@ class LocGeoPosResponse {
                         altitude: $location->crd->z ?? 0
                     )
             );
+            $stop->distance = $location?->dist;
+            $data[]         = $stop;
         }
 
         return $data;
