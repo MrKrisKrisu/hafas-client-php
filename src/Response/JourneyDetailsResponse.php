@@ -58,7 +58,7 @@ class JourneyDetailsResponse {
         }
 
         $remarks = [];
-        foreach($rawJourney->msgL as $message) {
+        foreach($rawJourney->msgL ?? [] as $message) {
             $rawMessage = $rawCommon->remL[$message->remX];
 
             $remarks[] = new Remark(

@@ -1,10 +1,6 @@
 name: PHPUnit
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [ push ]
 
 jobs:
   phpunit-tests:
@@ -13,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [ 8.0 ]
+        php: [ 8.0, 8.1 ]
         dependency-version: [ prefer-stable ]
 
     steps:
@@ -24,7 +20,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, bcmath, ctype, fileinfo, json, openssl, pdo, tokenizer, xml
+          extensions: json, openssl
           coverage: none
 
       - name: Validate composer.json and composer.lock

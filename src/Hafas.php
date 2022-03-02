@@ -22,13 +22,13 @@ abstract class Hafas {
      * @todo filter by direction
      */
     public static function getDepartures(
-        int $lid,
-        Carbon $timestamp,
-        int $maxJourneys = 5,
-        int $duration = -1,
+        int           $lid,
+        Carbon        $timestamp,
+        int           $maxJourneys = 5,
+        int           $duration = -1,
         ProductFilter $filter = null,
     ): ?array {
-        if($filter == null) {
+        if($filter === null) {
             //true is default for all
             $filter = new ProductFilter();
         }
@@ -52,8 +52,7 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        $response = new StationBoardResponse(Request::request($data));
-        return $response->parse();
+        return (new StationBoardResponse(Request::request($data)))->parse();
     }
 
     /**
@@ -74,13 +73,13 @@ abstract class Hafas {
      * @todo filter by direction
      */
     public static function getArrivals(
-        int $lid,
-        Carbon $timestamp,
-        int $maxJourneys = 5,
-        int $duration = -1,
+        int           $lid,
+        Carbon        $timestamp,
+        int           $maxJourneys = 5,
+        int           $duration = -1,
         ProductFilter $filter = null,
     ): ?array {
-        if($filter == null) {
+        if($filter === null) {
             //true is default for all
             $filter = new ProductFilter();
         }
@@ -104,8 +103,7 @@ abstract class Hafas {
             'meth' => 'StationBoard'
         ];
 
-        $response = new StationBoardResponse(Request::request($data));
-        return $response->parse();
+        return (new StationBoardResponse(Request::request($data)))->parse();
     }
 
     /**
@@ -133,8 +131,7 @@ abstract class Hafas {
             'meth' => 'LocMatch'
         ];
 
-        $response = new LocMatchResponse(Request::request($data));
-        return $response->parse();
+        return (new LocMatchResponse(Request::request($data)))->parse();
     }
 
     /**
@@ -142,14 +139,13 @@ abstract class Hafas {
      * @throws Exception\InvalidHafasResponse
      */
     public static function getJourney(string $journeyId): ?Journey {
-        $data     = [
+        $data = [
             'req'  => [
                 'jid' => $journeyId
             ],
             'meth' => 'JourneyDetails'
         ];
-        $response = new JourneyDetailsResponse(Request::request($data));
-        return $response->parse();
+        return (new JourneyDetailsResponse(Request::request($data)))->parse();
     }
 
     /**
@@ -185,8 +181,6 @@ abstract class Hafas {
             'meth' => 'LocGeoPos'
         ];
 
-        $response = new LocGeoPosResponse(Request::request($data));
-        return $response->parse();
+        return (new LocGeoPosResponse(Request::request($data)))->parse();
     }
-
 }
