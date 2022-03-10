@@ -52,44 +52,48 @@ class StationBoardResponse {
         $journeys = [];
 
         foreach($this->rawStationBoard->svcResL[0]->res->jnyL as $rawJourney) {
+            if(isset($rawJourney?->prod?->opr?->name)) {
+                $operator = new Operator(
+                    id:   $rawJourney?->prod?->opr?->name, //TODO
+                    name: $rawJourney?->prod?->opr?->name ?? null,
+                );
+            }
+
             $journey = [
                 'type'      => 'journey',
                 'id'        => $rawJourney->jid,
                 'direction' => $rawJourney?->dirTxt ?? null,
                 'line'      => new Line(
-                    id: '?', //TODO
-                    name: $rawJourney?->prod?->prodCtx?->name ?? null,
+                    id:       '?', //TODO
+                    name:     $rawJourney?->prod?->prodCtx?->name ?? null,
                     category: $rawJourney?->prod?->prodCtx?->catOut ?? null,
-                    number: $rawJourney?->prod?->prodCtx?->line ?? null,
-                    mode: null,    //TODO
-                    product: null, //TODO
-                    operator: new Operator(
-                            id: $rawJourney?->prod?->opr?->name ?? null, //TODO
-                            name: $rawJourney?->prod?->opr?->name ?? null,
-                        ),
+                    number:   $rawJourney?->prod?->prodCtx?->line ?? null,
+                    mode:     null,    //TODO
+                    product:  null,    //TODO
+                    operator: $operator ?? null,
                 ),
                 'stopovers' => [],
             ];
 
             foreach($rawJourney->stopL as $rawStop) {
                 $journey['stopovers'][] = new Stopover(
-                    stop: new Stop(
-                              id: $rawStop?->loc?->extId,
-                              name: $rawStop?->loc?->name,
-                              location: new Location(
-                                      latitude: $rawStop?->loc?->crd?->y / 1000000,
-                                      longitude: $rawStop?->loc?->crd?->x / 1000000,
-                                      altitude: $rawStop?->loc?->crd?->z ?? null
-                                  )
-                          ),
-                    index: $rawStop?->idx,
-                    plannedArrival: isset($rawStop->aTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeS) : null,
-                    predictedArrival: isset($rawStop->aTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeR) : null,
-                    arrivalPlatform: $rawStop?->aPlatfS ?? null,
-                    plannedDeparture: isset($rawStop->dTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeS) : null,
+                    stop:               new Stop(
+                                            id:       $rawStop?->loc?->extId,
+                                            name:     $rawStop?->loc?->name,
+                                            location: new Location(
+                                                          latitude:  $rawStop?->loc?->crd?->y / 1000000,
+                                                          longitude: $rawStop?->loc?->crd?->x / 1000000,
+                                                          altitude:  $rawStop?->loc?->crd?->z ?? null
+                                                      )
+                                        ),
+                    index:              $rawStop?->idx,
+                    plannedArrival:     isset($rawStop->aTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeS) : null,
+                    predictedArrival:   isset($rawStop->aTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->aTimeR) : null,
+                    arrivalPlatform:    $rawStop?->aPlatfS ?? null,
+                    plannedDeparture:   isset($rawStop->dTimeS) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeS) : null,
                     predictedDeparture: isset($rawStop->dTimeR) ? Time::parseDatetime($rawJourney->date, $rawStop->dTimeR) : null,
-                    departurePlatform: $rawStop?->dPlatfS ?? null,
-                    isCancelled: isset($rawStop?->aCncl) || isset($rawStop?->dCnl),
+                    departurePlatform:  $rawStop?->dPlatfS ?? null,
+                    isCancelled:        isset($rawStop?->aCncl) || isset($rawStop?->dCnl),
                 );
             }
 
