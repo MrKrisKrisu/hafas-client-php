@@ -8,10 +8,10 @@ namespace HafasClient\Models;
  */
 class Operator {
 
-    public string  $id;
+    public ?string  $id;
     public ?string $name;
 
-    public function __construct(string $id, string $name = null) {
+    public function __construct(string $id = null, string $name = null) {
         $this->id   = $id;
         $this->name = $name;
     }
