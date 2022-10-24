@@ -4,6 +4,7 @@ namespace HafasClient;
 
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use HafasClient\Response\JourneyMatchResponse;
 use HafasClient\Response\StationBoardResponse;
 use HafasClient\Response\LocMatchResponse;
 use HafasClient\Response\JourneyDetailsResponse;
@@ -28,7 +29,7 @@ abstract class Hafas {
         int           $duration = -1,
         ProductFilter $filter = null,
     ): ?array {
-        if($filter === null) {
+        if ($filter === null) {
             //true is default for all
             $filter = new ProductFilter();
         }
@@ -79,7 +80,7 @@ abstract class Hafas {
         int           $duration = -1,
         ProductFilter $filter = null,
     ): ?array {
-        if($filter === null) {
+        if ($filter === null) {
             //true is default for all
             $filter = new ProductFilter();
         }
@@ -182,5 +183,24 @@ abstract class Hafas {
         ];
 
         return (new LocGeoPosResponse(Request::request($data)))->parse();
+    }
+
+    public static function searchTrips(string $query): ?array {
+        $data = [
+            'req'  => [
+                'input'    => $query,
+                'onlyCR'   => true,
+                'jnyFltrL' => [
+                    [
+                        'type'  => 'PROD',
+                        'mode'  => 'INC',
+                        'value' => '1023'
+                    ]
+                ]
+            ],
+            'meth' => 'JourneyMatch'
+        ];
+
+        return (new JourneyMatchResponse(Request::request($data)))->parse();
     }
 }
